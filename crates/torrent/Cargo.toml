@@ -1,0 +1,41 @@
+[package]
+name = "torrent"
+version = "0.1.0"
+authors = ["Xun <machine90831@gmail.com>"]
+edition = "2021"
+description = "An useful toolkit for distributed application"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+default = []
+tokio1 = ["tokio1-rt", "tokio1-io", "tokio1-net"]
+tokio1-io = ["tokio/io-util", "tokio/fs"]
+tokio1-net = ["tokio/net"]
+tokio1-rt = ["rt", "futures"]
+rt = ["tokio/rt", "tokio/sync", "tokio/rt-multi-thread", "tokio/time"]
+
+fastcp = ["crc32fast", "byteorder", "async-recursion"]
+
+[dependencies]
+vendor = { path = "../vendor" }
+slog = { version = "2.7"}
+serde = { version = "1.0", features = ["derive"] }
+bincode = { version = "1.3" }
+fxhash = "0.2"
+
+# for async used
+tokio = { version = "1.8", default-features = false }
+futures = { version =  "0.3", optional = true }
+
+# for fast copy
+crc32fast = { version = "1.2", optional = true }
+byteorder = { version = "1", optional = true }
+async-recursion = { version = "0.3", optional = true }
+
+[dev-dependencies]
+futures = { version =  "0.3" }
+
+# fast copy
+crc32fast = { version = "1.2" }
+byteorder = { version = "1" }
+async-recursion = { version = "0.3" }

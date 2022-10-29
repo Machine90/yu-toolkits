@@ -1,0 +1,39 @@
+[package]
+name = "yu-toolkits"
+version = "0.5.0"
+edition = "2021"
+authors = [
+  "Xun <machine90831@gmail.com>",
+]
+categories = ["commons", "library", "toolkits"]
+description = "A wildly used toolkit libraries"
+
+[features]
+default = ["vendor"]
+network = ["torrent"]
+rpc = ["tarpc_ext"]
+
+[workspace]
+members = ["crates/*"]
+
+[dependencies]
+vendor = { path = "crates/vendor", optional = true }
+torrent = { path = "crates/torrent", optional = true }
+tarpc_ext = { path = "crates/tarpc_ext", optional = true } 
+slog = { version = "2.7", optional = true }
+
+[dev-dependencies]
+vendor = { path = "crates/vendor" }
+torrent = { path = "crates/torrent" }
+tarpc_ext = { path = "crates/tarpc_ext" }
+slog = { version = "2.7" }
+
+[[example]]
+name = "logger"
+path = "examples/vendor/logger.rs"
+required-features = ["vendor/logger", "slog"]
+
+[[example]]
+name = "rpc"
+path = "examples/network/rpc_transport.rs"
+required-features = ["network"]

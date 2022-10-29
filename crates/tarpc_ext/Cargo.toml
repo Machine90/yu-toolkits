@@ -1,0 +1,10 @@
+[package]
+name = "tarpc_ext"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tarpc = { version = "0.26", features = ["serde-transport", "tcp"] }
+tokio-serde = { version = "0.8", features = ["bincode"] }
+futures = { version =  "0.3" }
+torrent = { path = "../torrent", features = ["tokio1-rt"] }
