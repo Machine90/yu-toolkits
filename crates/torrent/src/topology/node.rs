@@ -79,6 +79,12 @@ impl<T> Node<T> {
     }
 
     #[inline]
+    pub fn remove_port(&self, scheme: &str) -> &Self {
+        self.ports.remove(scheme);
+        self
+    }
+
+    #[inline]
     pub fn get_port(&self, scheme: &str) -> Option<u16> {
         self.ports.get(scheme).as_ref().map(|p| *p.value())
     }

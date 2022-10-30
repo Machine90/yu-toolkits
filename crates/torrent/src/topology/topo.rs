@@ -1,7 +1,5 @@
 // experimental feature
 #[allow(unused)] mod diff;
-// experimental feature
-#[allow(unused)] mod wal;
 
 use std::collections::{HashMap, HashSet};
 use std::{fmt::Debug, hash::Hash, sync::Arc};
@@ -213,11 +211,17 @@ impl<G: Eq + Hash, T: Eq + Hash> Topology<G, T> {
         true
     }
 
-    pub fn get_node(&self, group: &G, node: &T) -> Option<Arc<Node<T>>> {
+    /// Try to get a node reference from specific group.
+    pub fn get_group_node(&self, group: &G, node: &T) -> Option<Arc<Node<T>>> {
         if !self.contained_group_node(group, node) {
             return None;
         }
         self.nodes.get(node).map(|node| node.value().0.clone())
+    }
+
+    /// Try to get a node from whole topology.
+    pub fn get_node(&self, node: &T) -> Option<Arc<Node<T>>> {
+        self.nodes().get(&node).map(|node| node.0.clone())
     }
 
     #[inline]

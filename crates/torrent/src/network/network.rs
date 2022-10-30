@@ -48,7 +48,7 @@ impl<G: Eq + Hash, T: Eq + Hash> Network<G, T> {
     /// first.
     #[inline]
     pub fn get_peer_addr(&self, group: &G, node: &T, scheme: &str) -> Option<SocketAddr> {
-        self.topo.get_node(group, node).map(|n| n.socket(scheme))?
+        self.topo.get_group_node(group, node).map(|n| n.socket(scheme))?
     }
 
     /// Get the socket address of scheme from a node directly.
