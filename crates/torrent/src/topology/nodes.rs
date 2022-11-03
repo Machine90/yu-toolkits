@@ -33,7 +33,7 @@ impl<T: Clone + Eq + Hash> Clone for Nodes<T> {
         for n in self.0.iter() {
             let (node, ref_cnt) = n.value();
             let node = node.as_ref().clone();
-            let ref_cnt = ref_cnt.load(Ordering::Relaxed);
+            let ref_cnt = ref_cnt.load(Ordering::Acquire);
             new_nodes.insert(
                 n.key().clone(), 
                 (Arc::new(node), AtomicU64::new(ref_cnt))
@@ -47,6 +47,14 @@ impl<T: Eq + Hash> Nodes<T> {
     pub fn new() -> Self {
         Self(DashMap::with_hasher(TopoHashBuilder::default()))
     }
+
+    #[inline]
+    pub fn node_ref_count(&self, node_id: &T) -> usize {
+        self.0
+            .get(node_id)
+            .map(|node| node.1.load(Ordering::Acquire))
+            .unwrap_or(0) as usize
+    }
 }
 
 impl<T: Eq + Hash + Clone> Nodes<T> {
@@ -56,7 +64,7 @@ impl<T: Eq + Hash + Clone> Nodes<T> {
         match self.0.entry(node.id.clone()) {
             Entry::Occupied(exist) => {
                 let (node, refs) = exist.get();
-                refs.fetch_add(1, Ordering::Relaxed);
+                refs.fetch_add(1, Ordering::Release);
                 node.clone()
             }
             Entry::Vacant(new) => {
@@ -118,7 +126,7 @@ mod tests {
         }
         let mut remaind = 0;
         for n in nodes.iter() {
-            remaind += n.1.load(Ordering::Relaxed);
+            remaind += n.1.load(Ordering::Acquire);
         }
         assert!(remaind == TOTAL - REMOVED);
     }

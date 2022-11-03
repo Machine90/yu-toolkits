@@ -224,6 +224,13 @@ impl<G: Eq + Hash, T: Eq + Hash> Topology<G, T> {
         self.nodes().get(&node).map(|node| node.0.clone())
     }
 
+    /// Get reference count of node. If return 0
+    /// means this node not exists on topology.
+    #[inline]
+    pub fn node_ref_count(&self, node: &T) -> usize {
+        self.nodes().node_ref_count(node)
+    }
+
     #[inline]
     pub fn get_group_mut(&self, group: &G) -> Option<Group<G, T>> {
         self.index.get_mut(group).map(|group| {
