@@ -219,39 +219,6 @@ where
     result
 }
 
-#[cfg(test)]
-mod tests {
-    use std::time::Duration;
-
-    use tarpc::client::Config;
-    use tokio::runtime::Runtime;
-
-    use super::{tcp_connect_retry, *};
-
-    #[tarpc::service]
-    trait Foo {
-        async fn hello() -> String;
-    }
-
-    #[test]
-    fn test_conn() {
-        Runtime::new().unwrap().block_on(async move {
-            let t = tcp_connect_retry(
-                "127.0.0.1:8080".parse().unwrap(),
-                Duration::from_millis(10),
-                retry::exponential,
-            )
-            .await;
-
-            if let Err(e) = t {
-                println!("err: {:?}", e);
-                return;
-            }
-            FooClient::new(Config::default(), t.unwrap());
-        });
-    }
-}
-
 pub mod retry {
     use std::time::Duration;
 

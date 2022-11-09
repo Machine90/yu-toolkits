@@ -7,7 +7,7 @@ use futures::{
     future::{self, AbortHandle, Abortable},
     Future, StreamExt,
 };
-use tarpc::server::{BaseChannel, Channel, Incoming, Serve};
+use tarpc::server::{BaseChannel, Channel, incoming::{Incoming}, Serve};
 use tokio_serde::formats::Bincode;
 
 /// Config of RPC server, all these configures see:

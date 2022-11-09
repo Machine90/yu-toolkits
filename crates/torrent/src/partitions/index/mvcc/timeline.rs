@@ -148,8 +148,8 @@ impl<R> Timeline<R> {
         let txid = self.id_gen.next_id();
         version.id = txid;
         version.current.store(
-            self.cur_ptr.load(Ordering::SeqCst), 
-            Ordering::SeqCst
+            self.cur_ptr.load(Ordering::Acquire), 
+            Ordering::Relaxed
         );
     }
 

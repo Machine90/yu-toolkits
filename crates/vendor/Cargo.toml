@@ -10,7 +10,7 @@ default = ["logger"]
 logger = ["slog", "slog-term", "slog-async"]
 
 [dependencies]
-dashmap = {version = "4"}
+dashmap = { version = "5", features = ["raw-api"] }
 
 # slog deps
 slog = { version = "2.7", optional = true }

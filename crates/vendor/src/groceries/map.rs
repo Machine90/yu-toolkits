@@ -130,15 +130,6 @@ where
     }
 }
 
-#[allow(unused)]
-fn try_convert<V1, V2>(v1: &V1, v2: &V2)
-where
-    V1: Any,
-    V2: Any,
-{
-    // todo
-}
-
 #[cfg(test)]
 mod test {
     use super::*;

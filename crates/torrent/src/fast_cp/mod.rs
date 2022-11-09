@@ -182,7 +182,7 @@ impl TryInto<Session> for Packet {
 ///     let daemon = recv.daemon();  
 ///
 ///     let mut client = CpFile::new();
-///     let _ = client.src_dir("../../assets/conf/conf.xml", true);
+///     let _ = client.src_dir("../../assets/backup", true);
 ///     let _ = client
 ///         .try_handshake("localhost:8080", Duration::from_millis(100))
 ///         .and_then(|transfer| transfer.flush());
@@ -319,7 +319,7 @@ mod tests {
     fn test_file() {
         // step1: client side collect items prepare to send.
         let mut fast_cp = CpFile::new();
-        let r = fast_cp.src_dir("../../assets/conf/conf.xml", true);
+        let r = fast_cp.src_dir("../../assets/backup", true);
 
         if r.is_err() {
             return;
@@ -354,7 +354,7 @@ mod tests {
         let daemon = recv.daemon();
 
         let mut client = CpFile::new();
-        let _ = client.src_dir("../../assets/conf/conf.xml", true);
+        let _ = client.src_dir("../../assets/backup", true);
         let _ = client
             .try_handshake("localhost:8080", Duration::from_millis(100))
             .and_then(|transfer| transfer.flush());
@@ -413,7 +413,7 @@ mod tests_async {
         // step1: client side collect items prepare to send.
         let mut fast_cp = CpFile::new();
         let r = fast_cp
-            .src_dir_async("../../assets/conf/conf.xml", true)
+            .src_dir_async("../../assets/backup", true)
             .await;
 
         if r.is_err() {
@@ -458,7 +458,7 @@ mod tests_async {
 
         let mut client = CpFile::new();
         let _ = client
-            .src_dir_async("../../assets/conf/conf.xml", true)
+            .src_dir_async("../../assets/backup", true)
             .await;
         let transfer = client.try_handshake_async(
             "localhost:8080", 

@@ -32,6 +32,11 @@ pub mod prelude {
         shorthands, singleton,
     };
     pub use dashmap::{self, *};
+    pub mod lock {
+        // compatible with dashmap RwLock since version 5.x (from 4.x)
+        // dashmap 5.x has optimized the lock behaviour by trying fast lock first.
+        pub use dashmap::{RawRwLock, RwLock, RwLockReadGuard, RwLockWriteGuard};
+    }
 }
 
 pub mod shorthands {
